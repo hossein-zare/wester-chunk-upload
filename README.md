@@ -33,8 +33,7 @@ try {
     // Finished?
     if ($chunk->isLast()) {
 
-        // File Path
-        $chunk->getFilePath(); // string
+        $chunk->getFilePath();
 
     } else {
 
@@ -52,11 +51,39 @@ try {
 } catch (ChunkException $e) {
 
     /** NEVER CHANGE THIS CODE **/
+
     Header::abort(500);
 
 } catch (FileException $e) {
 
     /** NEVER CHANGE THIS CODE **/
+
     Header::abort(500);
 
 }
+```
+
+## Exceptions
+This package provides a bunch of Validation Exceptions, You can see the available Exceptions right below.
+
++ ### Chunk
+    ```php
+    use Wester\ChunkUpload\Exceptions\ChunkException;
+    ```
+
++ ### File
+    ```php
+    use Wester\ChunkUpload\Exceptions\FileException;
+    ```
+
++ ### Validation
+    ```php
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\RequiredRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\SizeRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\MinRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\StringRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\NumericRuleException;
+    use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
+    ```
