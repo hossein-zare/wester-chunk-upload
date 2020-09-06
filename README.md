@@ -172,7 +172,7 @@ An example of the headers.
     "x-chunk-total-number" : 5,
     "x-chunk-size" : 4000,
     "x-file-name" : "my-file-name.mp4",
-    "x-file-size" : 237492,
+    "x-file-size" : 20000,
     "x-file-identity" : "rmghdygvdstcsjglltmbvkynxpeajgcg"
 }
 ```
