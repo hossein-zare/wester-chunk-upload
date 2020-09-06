@@ -87,6 +87,16 @@ try {
     $chunk->options['name'];
     ...
     ```
+* `header` returns an instance of `\Wester\ChunkUpload\Header`
+
+    ```php
+    $chunk->header->chunkNumber;
+    $chunk->header->chunkTotalNumber;
+    $chunk->header->chunkSize;
+    $chunk->header->fileName;
+    $chunk->header->fileSize;
+    $chunk->header->fileIdentity;
+    ```
 
 ## Flags
 * `Chunk::RANDOM_FILE_NAME` creates a random file name.
