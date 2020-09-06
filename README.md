@@ -167,11 +167,11 @@ This package uses the HTTP response status codes to decide what to do next if th
 There are some headers that should be sent to the server.
 ```json
 {
-    'x-chunk-number' : 1,
-    'x-chunk-total-number' : 5,
-    'x-chunk-size' : 4000,
-    'x-file-name' : 'my-file-name.mp4',
-    'x-file-size' : 237492,
-    'x-file-identity' : 'rmghdygvdstcsjglltmbvkynxpeajgcg' // Must be random for every file
+    "x-chunk-number" : 1,
+    "x-chunk-total-number" : 5,
+    "x-chunk-size" : 4000,
+    "x-file-name" : "my-file-name.mp4",
+    "x-file-size" : 237492,
+    "x-file-identity" : "rmghdygvdstcsjglltmbvkynxpeajgcg" // Must be random for every file
 }
 ```
