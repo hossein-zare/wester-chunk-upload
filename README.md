@@ -66,17 +66,17 @@ try {
 ## Exceptions
 This package provides a bunch of Validation Exceptions, You can see the available Exceptions right below.
 
-+ ### Chunk
+* ### Chunk
     ```php
     use Wester\ChunkUpload\Exceptions\ChunkException;
     ```
 
-+ ### File
+* ### File
     ```php
     use Wester\ChunkUpload\Exceptions\FileException;
     ```
 
-+ ### Validation
+* ### Validation
     ```php
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\RequiredRuleException;
