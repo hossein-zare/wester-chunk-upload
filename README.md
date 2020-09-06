@@ -1,6 +1,4 @@
 # Wester Chunk Upload Library For PHP
-
-## Description
 Wester chunk upload is a php library to deal with chunked uploads. This makes it super easy to validate the chunks and ensure you are secure.
 
 ## Installation
@@ -13,10 +11,7 @@ Here's an example of the package.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\SizeRuleException;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\MinRuleException;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
+use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
     $chunk = new Chunk([
@@ -49,10 +44,14 @@ try {
 
     }
 
-} catch (SizeRuleException|MinRuleException|MaxRuleException|ExtensionRuleException $e) {
+} catch (ValidationException $e) {
     Header::status(422);
 
-    return $e->getMessage();
+    // Laravel-like validation messages
+    return [
+        'message' => $e->getMessage(),
+        'data' => $e->getErrors(),
+    ];
 } catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
@@ -120,31 +119,12 @@ try {
     'file_size' => ['max:90000']
     ```
 
-## Exceptions
-This package provides a bunch of Validation Exceptions, You can see the available Exceptions right below.
-
-* ### Validation
-    ```php
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\SizeRuleException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\MinRuleException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
-    ```
-    Only `SizeRuleException`, `MinRuleException`, `MaxRuleException` and `ExtensionRuleException` Exceptions are usable for you.
-
-* ### Chunk
-    ```php
-    use Wester\ChunkUpload\Exceptions\ChunkException;
-    ```
-
-* ### File
-    ```php
-    use Wester\ChunkUpload\Exceptions\FileException;
-    ```
-
 ## HTTP Response Status Codes
 This package uses the HTTP response status codes to decide what to do next if the request fails or succeeds when uploading.
+
+* ### Success
+    * `200` All of the chunks have been uploaded completely.
+    * `201` The server is waiting for the next chunk to be sent.
 
 * ### Errors
     The following status codes will interrupt the process.
