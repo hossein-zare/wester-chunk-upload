@@ -8,6 +8,8 @@ Here's an example of the simple usage.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
+use Wester\ChunkUpload\Exceptions\ChunkException;
+use Wester\ChunkUpload\Exceptions\FileException;
 use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
@@ -28,28 +30,33 @@ try {
 
     $chunk->validate()->store();
 
-    // Progress
-    $chunk->getProgress(); // float
-
     // Finished?
     if ($chunk->isLast()) {
-
-        // Full File Name
-        $chunk->getFullFileName(); // string
-
-        // File Extension
-        $chunk->getFileExtension(); // null|string
 
         // File Path
         $chunk->getFilePath(); // string
 
+    } else {
+
+        // Progress
+        return $chunk->getProgress();
+        
     }
 
 } catch (ValidationException $e) {
-    Header::abort(402);
+
+    // Read the Exceptions section (Extendable)
+
+    Header::abort(402); // required
+
 } catch (ChunkException $e) {
+
+    /** NEVER CHANGE THIS CODE **/
     Header::abort(500);
+
 } catch (FileException $e) {
+
+    /** NEVER CHANGE THIS CODE **/
     Header::abort(500);
+
 }
-```
