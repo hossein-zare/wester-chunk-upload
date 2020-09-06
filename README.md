@@ -35,23 +35,58 @@ try {
 
     } else {
 
-        // Progress
         return $chunk->getProgress();
-        
+
     }
 
+} catch (SizeRuleException $e) {
+    Header::status(422);
+
+    return 'Your file size didn\'t match the specified size.';
+} catch (MinRuleException $e) {
+    Header::status(422);
+
+    return 'Your file size is too less.';
+} catch (MaxRuleException $e) {
+    Header::status(422);
+
+    return 'Your file size is too much.';
+} catch (ExtensionRuleException $e) {
+    Header::status(422);
+
+    return 'Your file type is invalid.';
 } catch (ValidationException $e) {
 
-    // Read Exceptions (Validation)
-
+    /** NEVER CHANGE THIS CODE **/
+    Header::abort(500);
 } catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
-
     Header::status(500);
 
 }
 ```
+
+## Methods
+* `store()` stores the chunk and merges it.
+* `validate()` validates the chunk.
+* `getFilePath()` gets the final file path.
+* `getProgress()` gets the progress in percentage (float).
+* `isLast()` checks if its the last chunk.
+* `getFileExtension()` gets the file extension.
+* `getFileName()` gets the file name without extension.
+* `getFullFileName()` gets the full file name with extension.
+* `getTempFilePath()` gets the temp file path.
+* `getSize()` gets the chunk size.
+* `getTotalNumber()` gets the total number of chunks.
+
+## Properties
+* `options` returns an array of the parsed options.
+
+    ```php
+    $chunk->options['name'];
+    ...
+    ```
 
 ## Flags
 * `Chunk::RANDOM_FILE_NAME` creates a random file name.
@@ -180,5 +215,5 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     ValidationException
     ChunkException
     FileException
-    \Exception
+    \Exception // Required
     ```
