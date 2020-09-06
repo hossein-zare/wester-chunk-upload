@@ -124,7 +124,7 @@ $chunk->setLanguage([
 * `Chunk::ORIGINAL_FILE_EXTENSION` preserves the original file extension.
 > You can also specify a custom file name and extension.
 
-## Validation
+## Validation Rules
 * ### File Name
     **`extension`**
     ```php
@@ -141,7 +141,7 @@ $chunk->setLanguage([
     'file_size' => ['min:10000']
     ```
 
-    **`min`**
+    **`max`**
     ```php
     'file_size' => ['max:90000']
     ```
