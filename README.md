@@ -92,6 +92,28 @@ try {
     $chunk->header->fileIdentity;
     ```
 
+## Validation Rules
+* ### File Name
+    **`extension`**
+    ```php
+    'file_name' => ['extension:mp4,avi']
+    ```
+* ### File Size
+    **`size`**
+    ```php
+    'file_size' => ['size:237492']
+    ```
+
+    **`min`**
+    ```php
+    'file_size' => ['min:10000']
+    ```
+
+    **`max`**
+    ```php
+    'file_size' => ['max:90000']
+    ```
+
 ## Language
 You can easily change the validation messages the same as Laravel.
 
@@ -123,28 +145,6 @@ $chunk->setLanguage([
 * `Chunk::ORIGINAL_FILE_NAME` preserves the original file name.
 * `Chunk::ORIGINAL_FILE_EXTENSION` preserves the original file extension.
 > You can also specify a custom file name and extension.
-
-## Validation Rules
-* ### File Name
-    **`extension`**
-    ```php
-    'file_name' => ['extension:mp4,avi']
-    ```
-* ### File Size
-    **`size`**
-    ```php
-    'file_size' => ['size:237492']
-    ```
-
-    **`min`**
-    ```php
-    'file_size' => ['min:10000']
-    ```
-
-    **`max`**
-    ```php
-    'file_size' => ['max:90000']
-    ```
 
 ## HTTP Response Status Codes
 This package uses the HTTP response status codes to decide what to do next if the request fails or succeeds when uploading.
