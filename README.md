@@ -53,6 +53,11 @@ try {
 }
 ```
 
+## Flags
+* `Chunk::RANDOM_FILE_NAME` creates a random file name.
+* `Chunk::ORIGINAL_FILE_NAME` preserves the original file name.
+* `Chunk::ORIGINAL_FILE_EXTENSION` preserves the original file extension.
+
 ## Validation
 * ### File Name
     **`extension`**
