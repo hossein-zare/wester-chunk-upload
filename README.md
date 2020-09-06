@@ -44,7 +44,7 @@ try {
 } catch (SizeRuleException $e) {
     Header::status(422);
 
-    return 'Your file size didn\'t match the specified size.';
+    return 'Your file size doesn\'t match the specified size.';
 } catch (MinRuleException $e) {
     Header::status(422);
 
