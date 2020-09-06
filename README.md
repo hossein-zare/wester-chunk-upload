@@ -86,7 +86,7 @@ try {
     ```php
     $chunk->header->chunkNumber;
     $chunk->header->chunkTotalNumber;
-    $chunk->header->chunkSize; // equal to   $chunk->configs['chunk_size'];
+    $chunk->header->chunkSize; // equal to   x-chunk-size   (Read headers in the client side section)
     $chunk->header->fileName;
     $chunk->header->fileSize;
     $chunk->header->fileIdentity;
@@ -159,7 +159,7 @@ This package uses the HTTP response status codes to decide what to do next if th
 There are some headers that should be sent to the server.
 * `x-chunk-number` The current chunk number which is being uploaded.
 * `x-chunk-total-number` The total number of chunks.
-* `x-chunk-size` Maximum size of each chunk.
+* `x-chunk-size` Maximum size of each chunk. (e.g. each chunk must be 4000 bytes and only the last chunk be less than it)
 * `x-file-name` The uploaded file name.
 * `x-file-size` The uploaded file size.
 * `x-file-identity` Random string for the file.
