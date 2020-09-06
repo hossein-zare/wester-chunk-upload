@@ -143,20 +143,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     use Wester\ChunkUpload\Exceptions\FileException;
     ```
 
-* #### Order
-    The order of exceptions is highly recommended because instead of catching a specified exception it may catch `\Exception`
-
-    ```php
-    SizeRuleException
-    MinRuleException
-    MaxRuleException
-    ExtensionRuleException
-    ValidationException
-    ChunkException
-    FileException
-    \Exception // Required
-    ```
-
 ## HTTP Response Status Codes
 This package uses the HTTP response status codes to decide what to do next if the request fails or succeeds when uploading.
 
