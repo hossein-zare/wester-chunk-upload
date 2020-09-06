@@ -74,7 +74,7 @@ try {
 * `store()` stores the chunk and merges it.
 * `validate()` validates the chunk.
 * `getFilePath()` gets the final file path.
-* `getProgress()` gets the progress in percentage (float).
+* `getProgress()` gets the progress percentage (float).
 * `isLast()` checks if its the last chunk.
 * `getFileExtension()` gets the file extension.
 * `getFileName()` gets the file name without extension.
