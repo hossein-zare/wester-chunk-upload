@@ -171,7 +171,7 @@ There are some headers that should be sent to the server.
 * `x-chunk-size` Maximum size of each chunk.
 * `x-file-name` The uploaded file name.
 * `x-file-size` The uploaded file size.
-* `x-file-identity` Random string for each file
+* `x-file-identity` Random string for the file.
 
 An example of the headers.
 ```json
