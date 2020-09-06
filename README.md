@@ -8,6 +8,10 @@ Here's an example of the package.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
+use Wester\ChunkUpload\Validation\Rules\Exceptions\SizeRuleException;
+use Wester\ChunkUpload\Validation\Rules\Exceptions\MinRuleException;
+use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
+use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
 
 try {
     $chunk = new Chunk([
@@ -47,7 +51,7 @@ try {
 } catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
-    Header::status(400);
+    Header::abort(400);
 
 }
 ```
@@ -66,10 +70,10 @@ try {
 * `getTotalNumber()` gets the total number of chunks.
 
 ## Properties
-* `options` returns an array of the parsed options.
+* `configs` returns an array of the parsed configs.
 
     ```php
-    $chunk->options['name'];
+    $chunk->configs['name'];
     ...
     ```
 * `header` returns an instance of `\Wester\ChunkUpload\Header`
@@ -77,7 +81,7 @@ try {
     ```php
     $chunk->header->chunkNumber;
     $chunk->header->chunkTotalNumber;
-    $chunk->header->chunkSize; // equal to   $chunk->options['chunk_size'];
+    $chunk->header->chunkSize; // equal to   $chunk->configs['chunk_size'];
     $chunk->header->fileName;
     $chunk->header->fileSize;
     $chunk->header->fileIdentity;
