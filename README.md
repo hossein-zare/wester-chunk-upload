@@ -44,21 +44,19 @@ try {
 
 } catch (ValidationException $e) {
 
-    // Read the Exceptions section (Extendable)
-
-    Header::abort(402); // required
+    // Read Extensions (Validation)
 
 } catch (ChunkException $e) {
 
     /** NEVER CHANGE THIS CODE **/
 
-    Header::abort(500);
+    Header::status(500);
 
 } catch (FileException $e) {
 
     /** NEVER CHANGE THIS CODE **/
 
-    Header::abort(500);
+    Header::status(500);
 
 }
 ```
@@ -70,11 +68,13 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     ```php
     use Wester\ChunkUpload\Exceptions\ChunkException;
     ```
+    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
 
 * ### File
     ```php
     use Wester\ChunkUpload\Exceptions\FileException;
     ```
+    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
 
 * ### Validation
     ```php
@@ -86,4 +86,48 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     use Wester\ChunkUpload\Validation\Rules\Exceptions\StringRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\NumericRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
+    ```
+    Only `Size` `Min` `Max` `Extension` Exceptions are usable for you.
+    
+    ```php
+    try {
+
+        $chunk = ...
+
+    } catch (SizeRuleException $e) {
+        Header::status(422);
+
+        return 'Your file size didn\'t match the specified size.';
+    } catch (MinRuleException $e) {
+        Header::status(422);
+
+        return 'Your file size is too less.';
+    } catch (MaxRuleException $e) {
+        Header::status(422);
+
+        return 'Your file size is too much.';
+    } catch (ExtensionRuleException $e) {
+        Header::status(422);
+
+        return 'Your file type is invalid.';
+    } catch (ValidationException $e) {
+
+        /** NEVER CHANGE THIS CODE **/
+
+        Header::abort(500);
+    }
+    ```
+
+* #### Order
+    The order of exceptions is highly recommended because instead of catching a specified exception it may catch `\Exception`
+    
+    ```php
+    SizeRuleException
+    MinRuleException
+    MaxRuleException
+    ExtensionRuleException
+    ValidationException
+    ChunkException
+    FileException
+    \Exception
     ```
