@@ -164,7 +164,16 @@ This package uses the HTTP response status codes to decide what to do next if th
 > If another status code is returned the chunk must be re-uploaded.
 
 ## Client Side
+### Headers
 There are some headers that should be sent to the server.
+* `x-chunk-number` The current chunk number which is being uploaded.
+* `x-chunk-total-number` The total number of chunks.
+* `x-chunk-size` Maximum size of each chunk.
+* `x-file-name` The uploaded file name.
+* `x-file-size` The uploaded file size.
+* `x-file-identity` Random string for each file
+
+An example of the headers.
 ```json
 {
     "x-chunk-number" : 1,
@@ -172,6 +181,6 @@ There are some headers that should be sent to the server.
     "x-chunk-size" : 4000,
     "x-file-name" : "my-file-name.mp4",
     "x-file-size" : 237492,
-    "x-file-identity" : "rmghdygvdstcsjglltmbvkynxpeajgcg" // Must be random for every file
+    "x-file-identity" : "rmghdygvdstcsjglltmbvkynxpeajgcg"
 }
 ```
