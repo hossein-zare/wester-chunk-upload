@@ -3,8 +3,8 @@
 ## Description
 Wester chunk upload is a php library to deal with chunks while uploading. This makes it super easy to validate the chunks and ensure you are secure.
 
-## Basic Usage
-Here's an example of the simple usage.
+## Usage
+Here's an example of the usage.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
