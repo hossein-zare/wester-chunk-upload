@@ -8,7 +8,6 @@ Here's an example of the package.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
     $chunk = new Chunk([
@@ -41,27 +40,10 @@ try {
 
     }
 
-} catch (SizeRuleException $e) {
+} catch (SizeRuleException|MinRuleException|MaxRuleException|ExtensionRuleException $e) {
     Header::status(422);
 
-    return 'Your file size doesn\'t match the specified size.';
-} catch (MinRuleException $e) {
-    Header::status(422);
-
-    return 'Your file is too small.';
-} catch (MaxRuleException $e) {
-    Header::status(422);
-
-    return 'Your file is too large.';
-} catch (ExtensionRuleException $e) {
-    Header::status(422);
-
-    return 'Your file type is invalid.';
-} catch (ValidationException $e) {
-
-    /** NEVER CHANGE THIS CODE **/
-    Header::abort(400);
-
+    return $e->getMessage();
 } catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
@@ -135,12 +117,9 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
 * ### Validation
     ```php
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\RequiredRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\SizeRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\MinRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\StringRuleException;
-    use Wester\ChunkUpload\Validation\Rules\Exceptions\NumericRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
     ```
     Only `Size` `Min` `Max` `Extension` Exceptions are usable for you.
