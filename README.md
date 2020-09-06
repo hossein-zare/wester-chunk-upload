@@ -23,8 +23,8 @@ try {
         'file_extension' => Chunk::ORIGINAL_FILE_EXTENSION,
 
         'validation' => [
-            'file_name' => ['extension:jpg'],
-            'file_size' => ['size:23792']
+            'file_name' => ['extension:mp4,avi'],
+            'file_size' => ['size:237492']
         ]
     ]);
 
@@ -60,6 +60,28 @@ try {
 
 }
 ```
+
+## Validation
+* ### File Name
+    **`extension`**
+    ```php
+    'file_name' => ['extension:mp4,avi']
+    ```
+* ### File Size
+    **`size`**
+    ```php
+    'file_size' => ['size:237492']
+    ```
+
+    **`min`**
+    ```php
+    'file_size' => ['min:10000']
+    ```
+    
+    **`min`**
+    ```php
+    'file_size' => ['max:90000']
+    ```
 
 ## Exceptions
 This package provides a bunch of Validation Exceptions, You can see the available Exceptions right below.
@@ -114,6 +136,7 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
 
     ```php
     } catch (ChunkException $e) {
+
         /** NEVER CHANGE THIS CODE **/
 
         Header::abort(500);
@@ -122,6 +145,7 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     // or 
 
     } catch (\Exception $e) {
+
         /** NEVER CHANGE THIS CODE **/
 
         Header::abort(500);
@@ -136,6 +160,7 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
 
      ```php
     } catch (FileException $e) {
+
         /** NEVER CHANGE THIS CODE **/
 
         Header::abort(500);
@@ -144,6 +169,7 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     // or 
 
     } catch (\Exception $e) {
+
         /** NEVER CHANGE THIS CODE **/
 
         Header::abort(500);
