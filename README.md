@@ -48,11 +48,11 @@ try {
 } catch (MinRuleException $e) {
     Header::status(422);
 
-    return 'Your file size is too less.';
+    return 'Your file is too small.';
 } catch (MaxRuleException $e) {
     Header::status(422);
 
-    return 'Your file size is too much.';
+    return 'Your file is too large.';
 } catch (ExtensionRuleException $e) {
     Header::status(422);
 
