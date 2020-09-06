@@ -11,7 +11,7 @@ use Wester\ChunkUpload\Header;
 use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
-    $obj = new Chunk([
+    $chunk = new Chunk([
         'name' => 'video', // same as $_FILES['video']
         'chunk_size' => 40000, // in bytes
         'path' => __DIR__ . '/uploads/', // where to upload the final file
@@ -26,10 +26,30 @@ try {
         ]
     ]);
 
-    $obj->validate()->store();
-    
+    $chunk->validate()->store();
+
+    // Progress
+    $chunk->getProgress(); // float
+
+    // Finished?
+    if ($chunk->isLast()) {
+
+        // Full File Name
+        $chunk->getFullFileName(); // string
+
+        // File Extension
+        $chunk->getFileExtension(); // null|string
+
+        // File Path
+        $chunk->getFilePath(); // string
+
+    }
 
 } catch (ValidationException $e) {
-    // Catch exceptions
+    Header::abort(402);
+} catch (ChunkException $e) {
+    Header::abort(500);
+} catch (FileException $e) {
+    Header::abort(500);
 }
 ```
