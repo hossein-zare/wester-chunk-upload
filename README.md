@@ -151,6 +151,7 @@ This package uses the HTTP response status codes to decide what to do next if th
 
     * `422`
     * `400`
+    * `500`
 
 > If another status code is returned the chunk must be re-uploaded.
 
