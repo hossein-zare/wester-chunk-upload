@@ -64,18 +64,6 @@ try {
 ## Exceptions
 This package provides a bunch of Validation Exceptions, You can see the available Exceptions right below.
 
-* ### Chunk
-    ```php
-    use Wester\ChunkUpload\Exceptions\ChunkException;
-    ```
-    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
-
-* ### File
-    ```php
-    use Wester\ChunkUpload\Exceptions\FileException;
-    ```
-    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
-
 * ### Validation
     ```php
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
@@ -118,9 +106,53 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     }
     ```
 
+* ### Chunk
+    ```php
+    use Wester\ChunkUpload\Exceptions\ChunkException;
+    ```
+    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
+
+    ```php
+    } catch (ChunkException $e) {
+        /** NEVER CHANGE THIS CODE **/
+
+        Header::abort(500);
+    }
+
+    // or 
+
+    } catch (\Exception $e) {
+        /** NEVER CHANGE THIS CODE **/
+
+        Header::abort(500);
+    }
+    ```
+
+* ### File
+    ```php
+    use Wester\ChunkUpload\Exceptions\FileException;
+    ```
+    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
+
+     ```php
+    } catch (FileException $e) {
+        /** NEVER CHANGE THIS CODE **/
+
+        Header::abort(500);
+    }
+
+    // or 
+
+    } catch (\Exception $e) {
+        /** NEVER CHANGE THIS CODE **/
+
+        Header::abort(500);
+    }
+    ```
+
 * #### Order
     The order of exceptions is highly recommended because instead of catching a specified exception it may catch `\Exception`
-    
+
     ```php
     SizeRuleException
     MinRuleException
