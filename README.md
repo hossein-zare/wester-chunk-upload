@@ -57,7 +57,7 @@ try {
 * `Chunk::RANDOM_FILE_NAME` creates a random file name.
 * `Chunk::ORIGINAL_FILE_NAME` preserves the original file name.
 * `Chunk::ORIGINAL_FILE_EXTENSION` preserves the original file extension.
-> You can also specify a custom your file name and extension.
+> You can also specify a custom file name and extension.
 
 ## Validation
 * ### File Name
