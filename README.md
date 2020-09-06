@@ -1,7 +1,7 @@
 # Wester Chunk Upload Library For PHP
 
 ## Description
-Wester chunk upload is a php library to deal with chunks while uploading. This makes it super easy to validate the chunks and ensure you are secure.
+Wester chunk upload is a php library to deal with chunked uploads. This makes it super easy to validate the chunks and ensure you are secure.
 
 ## Installation
 ```bash
