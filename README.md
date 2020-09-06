@@ -12,14 +12,16 @@ use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
     $chunk = new Chunk([
-        'name' => 'video', // same as $_FILES['video']
-        'chunk_size' => 40000, // in bytes
+        'name' => 'video', // same as    $_FILES['video']
+        'chunk_size' => 40000, // must be equal to the value specified on the client side
         'path' => __DIR__ . '/uploads/', // where to upload the final file
         'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
 
+        // File details
         'file_name' => Chunk::RANDOM_FILE_NAME,
         'file_extension' => Chunk::ORIGINAL_FILE_EXTENSION,
 
+        // File validation
         'validation' => [
             'file_name' => ['extension:mp4,avi'],
             'file_size' => ['size:237492']
@@ -77,7 +79,7 @@ try {
 * `getFileName()` gets the file name without extension.
 * `getFullFileName()` gets the full file name with extension.
 * `getTempFilePath()` gets the temp file path.
-* `getSize()` gets the chunk size.
+* `getSize()` gets the current chunk size.
 * `getTotalNumber()` gets the total number of chunks.
 
 ## Properties
@@ -92,7 +94,7 @@ try {
     ```php
     $chunk->header->chunkNumber;
     $chunk->header->chunkTotalNumber;
-    $chunk->header->chunkSize;
+    $chunk->header->chunkSize; // equal to   $chunk->options['chunk_size'];
     $chunk->header->fileName;
     $chunk->header->fileSize;
     $chunk->header->fileIdentity;
