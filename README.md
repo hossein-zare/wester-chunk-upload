@@ -234,6 +234,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
 ## HTTP Response Status Codes
 This package uses the HTTP response status codes to decide what to do next if the request fails or succeeds when uploading.
 
-**422** Validation error. The chunk/file is invalid and unable to be uploaded.
-**400** The chunk is invalid.
+* `422` Validation error. The chunk/file is invalid and unable to be uploaded.
+* `400` The chunk is invalid.
 > If another client error happens the chunk must be re-uploaded.
