@@ -170,7 +170,7 @@ There are some headers that should be sent to the server.
 * `x-chunk-size` Maximum size of each chunk. (each chunk must be 4000 bytes and only the last chunk can be less than that)
 * `x-file-name` The uploaded file name.
 * `x-file-size` The uploaded file size.
-* `x-file-identity` Random string for the file.
+* `x-file-identity` Random string for the file which must be 32 characters in length.
 
 An example of the headers.
 ```json
