@@ -11,7 +11,7 @@ Here's an example of the package.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
-use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
+use Wester\ChunkUpload\Validation\Exceptions\ValidationException;
 
 try {
     $chunk = new Chunk([
