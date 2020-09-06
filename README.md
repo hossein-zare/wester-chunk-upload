@@ -72,6 +72,7 @@ try {
 * `getTempFilePath()` gets the temp file path.
 * `getSize()` gets the current chunk size.
 * `getTotalNumber()` gets the total number of chunks.
+* `setLanguage([...])` sets the language to the provided array
 
 ## Properties
 * `configs` returns an array of the parsed configs.
@@ -90,6 +91,32 @@ try {
     $chunk->header->fileSize;
     $chunk->header->fileIdentity;
     ```
+
+## Language
+You can easily change the validation messages the same as Laravel.
+
+```php
+$chunk->setLanguage([
+    'min' => [
+        'numeric' => 'The :attribute must be at least :min.',
+        'file' => 'The :attribute must be at least :min kilobytes.',
+    ],
+    'max' => [
+        'numeric' => 'The :attribute may not be greater than :max.',
+        'file' => 'The :attribute may not be greater than :max kilobytes.',
+    ],
+    'size' => [
+        'numeric' => 'The :attribute must be :size.',
+        'file' => 'The :attribute must be :size kilobytes.',
+    ],
+    'mimes' => 'The :attribute must be a file of type: :values.',
+
+    'attributes' => [
+        'x-file-name' => 'file',
+        'x-file-size' => 'file',
+    ],
+]);
+```
 
 ## Flags
 * `Chunk::RANDOM_FILE_NAME` creates a random file name.
