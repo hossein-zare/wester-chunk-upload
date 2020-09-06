@@ -126,78 +126,16 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     use Wester\ChunkUpload\Validation\Rules\Exceptions\MaxRuleException;
     use Wester\ChunkUpload\Validation\Rules\Exceptions\ExtensionRuleException;
     ```
-    Only `Size` `Min` `Max` `Extension` Exceptions are usable for you.
-    
-    ```php
-    try {
-
-        $chunk = ...
-
-    } catch (SizeRuleException $e) {
-        Header::status(422);
-
-        return 'Your file size didn\'t match the specified size.';
-    } catch (MinRuleException $e) {
-        Header::status(422);
-
-        return 'Your file size is too less.';
-    } catch (MaxRuleException $e) {
-        Header::status(422);
-
-        return 'Your file size is too much.';
-    } catch (ExtensionRuleException $e) {
-        Header::status(422);
-
-        return 'Your file type is invalid.';
-    } catch (ValidationException $e) {
-
-        /** NEVER CHANGE THIS CODE **/
-        Header::abort(400);
-    }
-    ```
+    Only `SizeRuleException`, `MinRuleException`, `MaxRuleException` and `ExtensionRuleException` Exceptions are usable for you.
 
 * ### Chunk
     ```php
     use Wester\ChunkUpload\Exceptions\ChunkException;
     ```
-    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
-
-    ```php
-    } catch (ChunkException $e) {
-
-        /** NEVER CHANGE THIS CODE **/
-        Header::abort(400);
-    }
-
-    // or 
-
-    } catch (\Exception $e) {
-
-        /** NEVER CHANGE THIS CODE **/
-        Header::abort(400);
-    }
-    ```
 
 * ### File
     ```php
     use Wester\ChunkUpload\Exceptions\FileException;
-    ```
-    You can also use `\Exception` if you don't care whether a chunk or file exception has been thrown.
-
-     ```php
-    } catch (FileException $e) {
-
-        /** NEVER CHANGE THIS CODE **/
-        Header::abort(400);
-    }
-
-    // or 
-
-    } catch (\Exception $e) {
-
-        /** NEVER CHANGE THIS CODE **/
-        Header::abort(400);
-    }
     ```
 
 * #### Order
