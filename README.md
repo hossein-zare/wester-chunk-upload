@@ -8,8 +8,6 @@ Here's an example of the simple usage.
 ```php
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
-use Wester\ChunkUpload\Exceptions\ChunkException;
-use Wester\ChunkUpload\Exceptions\FileException;
 use Wester\ChunkUpload\Validation\Rules\Exceptions\ValidationException;
 
 try {
@@ -44,15 +42,9 @@ try {
 
 } catch (ValidationException $e) {
 
-    // Read Extensions (Validation)
+    // Read Exceptions (Validation)
 
-} catch (ChunkException $e) {
-
-    /** NEVER CHANGE THIS CODE **/
-
-    Header::status(500);
-
-} catch (FileException $e) {
+} catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
 
@@ -77,7 +69,7 @@ try {
     ```php
     'file_size' => ['min:10000']
     ```
-    
+
     **`min`**
     ```php
     'file_size' => ['max:90000']
@@ -123,7 +115,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     } catch (ValidationException $e) {
 
         /** NEVER CHANGE THIS CODE **/
-
         Header::abort(500);
     }
     ```
@@ -138,7 +129,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     } catch (ChunkException $e) {
 
         /** NEVER CHANGE THIS CODE **/
-
         Header::abort(500);
     }
 
@@ -147,7 +137,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     } catch (\Exception $e) {
 
         /** NEVER CHANGE THIS CODE **/
-
         Header::abort(500);
     }
     ```
@@ -162,7 +151,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     } catch (FileException $e) {
 
         /** NEVER CHANGE THIS CODE **/
-
         Header::abort(500);
     }
 
@@ -171,7 +159,6 @@ This package provides a bunch of Validation Exceptions, You can see the availabl
     } catch (\Exception $e) {
 
         /** NEVER CHANGE THIS CODE **/
-
         Header::abort(500);
     }
     ```
