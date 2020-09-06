@@ -237,4 +237,5 @@ This package uses the HTTP response status codes to decide what to do next if th
 * ### Client errors
     * `422` Validation error. The chunk/file is invalid and cannot be uploaded.
     * `400` The chunk is invalid.
+
     > If another status is retured the chunk must be re-uploaded.
