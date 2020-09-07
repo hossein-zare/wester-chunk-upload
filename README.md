@@ -52,10 +52,7 @@ try {
     ]);
 
 } catch (\Exception $e) {
-
-    /** NEVER CHANGE THIS CODE **/
     $e->response(400)->abort();
-
 }
 ```
 
