@@ -75,7 +75,7 @@ try {
 * `response($status = null)` returns an instance of `\Wester\ChunkUpload\Response
 
     ```php
-    $chunk->response(400)->json([...]);
+    $chunk->response(200)->json([...]);
     $chunk->response()->json([...]);
 
     // If an exception is caught...
