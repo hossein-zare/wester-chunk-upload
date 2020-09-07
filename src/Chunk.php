@@ -225,6 +225,7 @@ class Chunk
 
         foreach ($this->configs['validation'] as $validation) {
             $values = explode(':', $validation);
+
             if (in_array($values[0], $rules))
                 $array[] = $validation;
         }
