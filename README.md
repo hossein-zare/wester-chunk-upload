@@ -188,3 +188,12 @@ An example of the headers.
     "x-file-identity" : "rmghdygvdstcsjglltmbvkynxpeajgcg"
 }
 ```
+
+### Examples
+#### **Javascript**
+The client side implementation in Javascript.
+* [https://github.com/hossein-zare/wester-chunk-upload-examples/tree/master/javascript](https://github.com/hossein-zare/wester-chunk-upload-examples/tree/master/javascript)
+
+
+#### Contributing
+* If you want to add implementations in other languages please sumbit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
