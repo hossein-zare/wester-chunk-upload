@@ -4,6 +4,7 @@ namespace Wester\ChunkUpload\Validation;
 
 use Exception;
 use Wester\ChunkUpload\Validation\Exceptions\ValidationException;
+use Wester\ChunkUpload\Exceptions\MainException;
 use Wester\ChunkUpload\Language\Language;
 
 class Validator extends ExceptionHandler
@@ -94,7 +95,7 @@ class Validator extends ExceptionHandler
                     } catch (ValidationException $e) {
 
                         if ($this->isThrowable())
-                            throw new Exception("The data is invalid.");
+                            throw new MainException("The data is invalid.");
 
                         $messages[$parameter][] = $this->getValidationMessage($values);
 
