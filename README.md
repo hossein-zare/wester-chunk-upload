@@ -34,23 +34,18 @@ try {
     if ($chunk->isLast()) {
 
         $chunk->getFilePath();
-
+        
     } else {
-
         $chunk->response()->json([
             'progress' => $chunk->getProgress()
         ]);
-
     }
 
 } catch (ValidationException $e) {
-
-    // Laravel-like validation messages
     $e->response(422)->json([
         'message' => $e->getMessage(),
         'data' => $e->getErrors(),
     ]);
-
 } catch (\Exception $e) {
     $e->response(400)->abort();
 }
