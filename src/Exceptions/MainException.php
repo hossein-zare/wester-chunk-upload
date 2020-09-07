@@ -2,7 +2,7 @@
 
 namespace Wester\ChunkUpload\Exceptions;
 
-class HeaderException extends MainException
+class MainException extends \Exception
 {
     //
 }

@@ -2,7 +2,7 @@
 
 namespace Wester\ChunkUpload\Exceptions;
 
-class ChunkException extends \Exception
+class ChunkException extends MainException
 {
     //
 }
