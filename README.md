@@ -156,11 +156,15 @@ This package uses the HTTP response status codes to decide what to do next if th
 * ### Errors
     The following status codes will interrupt the process.
 
-    * `422`
     * `400`
+    * `404`
+    * `415`
+    * `422`
     * `500`
+    * `501`
 
-> If another status code is returned the chunk must be re-uploaded.
+> Feel free to add more status codes to your client side.
+> If another status code is returned the chunk must be re-uploaded such as `timeout` and `network error` status codes.
 
 ## Client Side
 ### Headers
