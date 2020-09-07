@@ -196,4 +196,4 @@ The client side implementation in Javascript.
 
 
 #### Contributing
-* If you want to add implementations in other languages please sumbit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
+* If you want to add more implementations in other languages please sumbit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
