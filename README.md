@@ -9,13 +9,16 @@ composer require wester/wester-chunk-upload
 ## Usage
 Here's an example of the package.
 ```php
+// You don't need this line in laravel or some other frameworks.
+require("./vendor/autoload.php");
+
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Validation\Exceptions\ValidationException;
 
 try {
     $chunk = new Chunk([
         'name' => 'video', // same as    $_FILES['video']
-        'chunk_size' => 40000, // must be equal to the value specified on the client side
+        'chunk_size' => 4000, // must be equal to the value specified on the client side
         'path' => __DIR__ . '/uploads/', // where to upload the final file
         'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
 
@@ -24,7 +27,7 @@ try {
         'file_extension' => Chunk::ORIGINAL_FILE_EXTENSION,
 
         // File validation
-        'validation' => ['extension:mp4,avi', 'size:237492'],
+        'validation' => ['extension:mp4,avi'],
     ]);
 
     $chunk->validate()->store();
