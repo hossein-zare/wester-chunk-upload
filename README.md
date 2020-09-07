@@ -1,12 +1,27 @@
 # Wester Chunk Upload Library For PHP
 Wester chunk upload is a php library to deal with chunked uploads. This makes it super easy to validate the chunks and ensure you are secure.
 
+## Table of contents
+* [Installation](#installation)
+* [Basic Usage](#basic-usage)
+* [Methods](#methods)
+* [Properties](#properties)
+* [Validation Rules](#validation-rules)
+* [Language](#language)
+* [Flags](#flags)
+* [HTTP Response Status Codes](#http-response-status-codes)
+* [Client Side](#client-side)
+    * [Headers](#headers)
+    * [Examples](#examples)
+        * [Javascript](#javascript)
+        * [Contributing](#contributing)
+
 ## Installation
 ```bash
 composer require wester/wester-chunk-upload
 ```
 
-## Usage
+## Basic Usage
 Here's an example of the package.
 ```php
 // You don't need this line in laravel or some other frameworks.
@@ -168,7 +183,7 @@ This package uses the HTTP response status codes to decide what to do next if th
 
 > Feel free to add more status codes to your client side.
 
-> If another status code is returned the chunk must be re-uploaded such as `timeout` and `network error` status codes.
+> If another status code is returned the chunk must be re-uploaded such as `timeout` and `network error`.
 
 ## Client Side
 ### Headers
