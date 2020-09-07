@@ -111,8 +111,8 @@ class Chunk
             'x-chunk-number' => ['!', 'required', 'numeric'],
             'x-chunk-total-number' => ['!', 'required', 'numeric'],
             'x-chunk-size' => ['!', 'required', 'numeric'],
-            'x-file-name' => ['required', 'string', ...($this->configs['validation']['file_name'] ?? [])],
-            'x-file-size' => ['required', 'file', ...($this->configs['validation']['file_size'] ?? [])],
+            'x-file-name' => ['required', 'string', ...$this->getValidationRule(['extension'])],
+            'x-file-size' => ['required', 'file', ...$this->getValidationRule(['min', 'max', 'size'])],
             'x-file-identity' => ['!', 'required', 'string', 'size:32']
         ];
 
