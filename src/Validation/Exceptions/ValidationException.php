@@ -2,7 +2,9 @@
 
 namespace Wester\ChunkUpload\Validation\Exceptions;
 
-class ValidationException extends \Exception
+use Wester\ChunkUpload\Exceptions\MainException;
+
+class ValidationException extends MainException
 {
     /**
      * The errors.
