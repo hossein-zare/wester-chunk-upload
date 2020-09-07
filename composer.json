@@ -11,6 +11,7 @@
     ],
     "require": {
     },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
           "Wester\\ChunkUpload\\": "src/"
