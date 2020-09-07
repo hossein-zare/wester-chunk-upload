@@ -25,10 +25,7 @@ try {
         'file_extension' => Chunk::ORIGINAL_FILE_EXTENSION,
 
         // File validation
-        'validation' => [
-            'file_name' => ['extension:mp4,avi'],
-            'file_size' => ['size:237492']
-        ]
+        'validation' => ['extension:mp4,avi', 'size:237492'],
     ]);
 
     $chunk->validate()->store();
@@ -93,25 +90,23 @@ try {
     ```
 
 ## Validation Rules
-* ### File Name
-    **`extension`**
+* `extension`
     ```php
-    'file_name' => ['extension:mp4,avi']
+    'validation' => ['extension:mp4,avi']
     ```
-* ### File Size
-    **`size`**
+* `size`
     ```php
-    'file_size' => ['size:237492']
+    'validation' => ['size:237492']
     ```
 
-    **`min`**
+ * `min`
     ```php
-    'file_size' => ['min:10000']
+    'validation' => ['min:10000']
     ```
 
-    **`max`**
+* `max`
     ```php
-    'file_size' => ['max:90000']
+    'validation' => ['max:90000']
     ```
 
 ## Language
