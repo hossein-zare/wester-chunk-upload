@@ -1,0 +1,19 @@
+{
+    "name": "wester/chunk-upload",
+    "description": "A package to deal with chunk uploads in PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hossein Zare",
+            "email": "zarehossein.hz1997@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+          "Wester\\ChunkUpload\\": "src/"
+        }
+    }
+}
