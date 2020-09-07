@@ -63,7 +63,7 @@ try {
 * `getSize()` gets the current chunk size.
 * `getTotalNumber()` gets the total number of chunks.
 * `setLanguage([...])` sets the language to the provided array
-* `response($status = null)` returns an instance of `\Wester\ChunkUpload\Response
+* `response($status = null)` returns an instance of `\Wester\ChunkUpload\Response`
 
     ```php
     $chunk->response(200)->json([...]);
