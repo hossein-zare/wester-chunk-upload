@@ -482,4 +482,15 @@ class Chunk
         return $this->file->name === 'blob'
             && $this->file->type === 'application/octet-stream';
     }
+
+    /**
+     * Create a new instance of the response class.
+     * 
+     * @param  null|int  $status
+     * @return \Wester\ChunkUpload\Response
+     */
+    public function response($status = null)
+    {
+        return (new Response())->status($status);
+    }
 }

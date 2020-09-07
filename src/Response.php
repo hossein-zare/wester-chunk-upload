@@ -10,9 +10,10 @@ class Response
      * @param  int  status
      * @return \Wester\ChunkUpload\Response
      */
-    public function status($status = 200)
+    public function status($status = null)
     {
-        http_response_code($status);
+        if ($status !== null)
+            http_response_code($status);
 
         return $this;
     }
@@ -25,8 +26,7 @@ class Response
      */
     public function abort($status = null)
     {
-        if ($status !== null)
-            http_response_code($status);
+        $this->status($status);
 
         die();
     }
