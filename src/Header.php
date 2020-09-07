@@ -88,41 +88,6 @@ class Header
     }
 
     /**
-     * Set http resonse code.
-     * 
-     * @param  int  status
-     * @return void
-     */
-    public static function status($status = 200)
-    {
-        http_response_code($status);
-    }
-
-    /**
-     * Abort the connection with http status code.
-     * 
-     * @param  int  status
-     * @return void
-     */
-    public static function abort($status = 200)
-    {
-        http_response_code($status);
-        die();
-    }
-
-    /**
-     * Json response.
-     * 
-     * @param  mixed  $data
-     * @return string
-     */
-    public static function json($data)
-    {
-        header('Content-Type: application/json');
-        die(json_encode($data));
-    }
-
-    /**
      * Get a header value.
      * 
      * @param  string  $name
