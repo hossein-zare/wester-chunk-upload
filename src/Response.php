@@ -40,6 +40,7 @@ class Response
     public function json($data)
     {
         header('Content-Type: application/json');
+
         die(json_encode($data));
     }
 
