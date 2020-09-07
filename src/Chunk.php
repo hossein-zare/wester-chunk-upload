@@ -214,6 +214,25 @@ class Chunk
     }
 
     /**
+     * Get validation rules.
+     * 
+     * @param  array  $rules
+     * @return array
+     */
+    private function getValidationRule(array $rules)
+    {
+        $array = [];
+
+        foreach ($this->configs['validation'] as $validation) {
+            $values = explode(':', $validation);
+            if (in_array($values[0], $rules))
+                $array[] = $validation;
+        }
+
+        return $array;
+    }
+
+    /**
      * Store the chunk.
      * 
      * @return \Wester\ChunkUpload\Chunk
