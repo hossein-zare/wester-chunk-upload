@@ -19,7 +19,7 @@ Wester chunk upload is a php library to handle chunked uploads. This makes it su
 
 ## Installation
 ```bash
-composer require wester/wester-chunk-upload
+composer require wester/chunk-upload
 ```
 
 ## Basic Usage
