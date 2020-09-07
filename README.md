@@ -15,6 +15,7 @@ Wester chunk upload is a php library to deal with chunked uploads. This makes it
     * [Examples](#examples)
         * [Javascript](#javascript)
         * [Contributing](#contributing)
+* [Support Us](#support-us)
 
 ## Installation
 ```bash
@@ -215,3 +216,6 @@ The client side implementation in Javascript.
 
 #### Contributing
 * If you want to add more implementations in other languages please sumbit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
+
+## Support Us
+Just star the repository, that's it! 😉
