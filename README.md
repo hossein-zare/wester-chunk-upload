@@ -37,22 +37,24 @@ try {
 
     } else {
 
-        return $chunk->getProgress();
+        $chunk->response()->json([
+            'progress' => $chunk->getProgress()
+        ]);
 
     }
 
 } catch (ValidationException $e) {
-    Header::status(422);
 
     // Laravel-like validation messages
-    return [
+    $e->response(422)->json([
         'message' => $e->getMessage(),
         'data' => $e->getErrors(),
-    ];
+    ]);
+
 } catch (\Exception $e) {
 
     /** NEVER CHANGE THIS CODE **/
-    Header::abort(400);
+    $e->response(400)->abort();
 
 }
 ```
@@ -70,6 +72,18 @@ try {
 * `getSize()` gets the current chunk size.
 * `getTotalNumber()` gets the total number of chunks.
 * `setLanguage([...])` sets the language to the provided array
+* `response($status = null)` returns an instance of `\Wester\ChunkUpload\Response
+
+    ```php
+    $chunk->response(400)->json([...]);
+    $chunk->response()->json([...]);
+
+    // If an exception is caught...
+    $e->response(400)->...
+    $e->response(400)->abort();
+    $e->response()->abort(400);
+    ...
+    ```
 
 ## Properties
 * `configs` returns an array of the parsed configs.
