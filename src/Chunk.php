@@ -244,10 +244,10 @@ class Chunk
         $this->storeTempChunk();
     
         if ($this->isLast()) {
-            $this->header->status(200);
+            $this->response()->status(200);
             $this->move();
         } else {
-            $this->header->status(201);
+            $this->response()->status(201);
         }
 
         return $this;
