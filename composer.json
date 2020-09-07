@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "php": "^7.2"
     },
     "minimum-stability": "stable",
     "autoload": {
