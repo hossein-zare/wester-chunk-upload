@@ -29,11 +29,11 @@ try {
 
     $chunk->validate()->store();
 
-    // Finished?
     if ($chunk->isLast()) {
 
+        // done
         $chunk->getFilePath();
-
+        
     } else {
         $chunk->response()->json([
             'progress' => $chunk->getProgress()
