@@ -209,6 +209,8 @@ An example of the headers.
 ```
 
 ### Examples
+You can find examples in [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
+
 #### **Javascript**
 The client side implementation in Javascript.
 * [https://github.com/hossein-zare/wester-chunk-upload-examples/tree/master/javascript](https://github.com/hossein-zare/wester-chunk-upload-examples/tree/master/javascript)
