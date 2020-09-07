@@ -119,7 +119,7 @@ class Header
     public static function json($data)
     {
         header('Content-Type: application/json');
-        echo json_encode($data);
+        die(json_encode($data));
     }
 
     /**
