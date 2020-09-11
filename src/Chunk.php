@@ -187,30 +187,43 @@ class Chunk
     public function validate()
     {
         if ($this->header->chunkTotalNumber !== $this->getTotalNumber()) {
-            throw new ChunkException("The total number of chunks is invalid.");
+            $this->revoke("The total number of chunks is invalid.");
         }
 
         if ($this->header->chunkNumber < 1 || $this->header->chunkNumber > $this->header->chunkTotalNumber) {
-            throw new ChunkException("The chunk number is invalid.");
+            $this->revoke("The chunk number is invalid.");
         }
 
         if ($this->file->size !== $this->getSize($this->header->chunkNumber)) {
-            throw new ChunkException("The chunk size is invalid.");
+            $this->revoke("The chunk size is invalid.");
         }
 
         if (! $this->isChunk()) {
-            throw new ChunkException("The uploaded file is not a chunk.");
+            $this->revoke("The uploaded file is not a chunk.");
         }
 
         if ($this->previousChunkExists() === false) {
-            throw new ChunkException("Previous chunk doesn't exist.");
+            $this->revoke("Previous chunk doesn't exist.");
         }
 
         if (file_exists($this->getTempFilePath())) {
-            throw new ChunkException("Chunk {$this->header->chunkNumber} already exists.");
+            $this->revoke("Chunk {$this->header->chunkNumber} already exists.");
         }
 
         return $this;
+    }
+
+    /**
+     * Revoke the action.
+     * 
+     * @param  string  $text
+     * @return void
+     * 
+     * @throws \Wester\ChunkUpload\ChunkException
+     */
+    private function revoke(string $text): void
+    {
+        throw new ChunkException($text);
     }
 
     /**
