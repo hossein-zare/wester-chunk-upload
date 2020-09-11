@@ -223,7 +223,29 @@ class Chunk
      */
     private function revoke(string $text): void
     {
+        $this->delete();
+
         throw new ChunkException($text);
+    }
+
+    /**
+     * Delete a temp chunk.
+     * 
+     * @return void
+     */
+    public function delete()
+    {
+        $path = $this->getTempFilePath($this->header->chunkNumber);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        if ($this->header->chunkNumber > 1) {
+            $path = $this->getTempFilePath($this->header->chunkNumber - 1);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
     }
 
     /**
