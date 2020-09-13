@@ -1,6 +1,6 @@
 {
     "name": "wester/chunk-upload",
-    "description": "Handle chunked uploads simply in PHP with advanced validation features and localization.",
+    "description": "Handle chunked uploads with local and ftp drivers simply in PHP with advanced validation features and localization.",
     "keywords": ["upload", "chunk", "chunked-upload", "resumable", "validation", "validation", "php"],
     "type": "library",
     "license": "MIT",
