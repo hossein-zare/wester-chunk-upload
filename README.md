@@ -1,5 +1,5 @@
 # Wester Chunk Upload Library For PHP
-Wester chunk upload is a php library to handle chunked uploads. This makes it super easy to validate the chunks and ensure you are secure.
+Wester chunk upload is a php library to handle chunked uploads which supports `local` and `ftp` drivers. This makes it super easy to validate the chunks and ensure you are secure.
 
 ## Table of contents
 * [Installation](#installation)
@@ -96,6 +96,10 @@ This package supports `local` and `ftp` drivers out of the box.
 
     ```php
     'driver' => \My\Custom\Drivers\DriverName::class,
+    'custom_driver' => [
+        'path' =>  '/uploads/',
+        'tmp_path' => '/uploads/temp/',
+    ],
     ```
 
     ```php
@@ -105,20 +109,14 @@ This package supports `local` and `ftp` drivers out of the box.
 
     class DriverName implements \Wester\ChunkUpload\Drivers\Contracts\DriverInterface
     {
-        public function delete(): void {};
-        public function store(string $tmpName): void {};
-        public function move(): void {};
-        public function increase(): void {};
-        public function createTempFileName(int $part = null): string {};
-        public function createRandomString(): string {};
-        public function createFileName(): string {};
-        public function getTempFilePath(int $part = null): string {};
-        public function getFilePath(): string {};
-        public function getFileName(): string {};
-        public function getFullFileName(): string {};
-        public function getFileExtension() {};
+        public function open() {};
+        public function close() {};
+        public function store($fileName) {};
+        public function delete() {};
+        public function move() {};
+        public function increase() {};
         public function prevExists() {};
-        public function exists(): bool {};
+        public function exists() {};
     }
     ```
 
