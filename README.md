@@ -4,6 +4,8 @@ Wester chunk upload is a php library to handle chunked uploads. This makes it su
 ## Table of contents
 * [Installation](#installation)
 * [Basic Usage](#basic-usage)
+* [Drivers](#drivers)
+    * [Implement The Driver](#implement-the-driver)
 * [Methods](#methods)
 * [Properties](#properties)
 * [Validation Rules](#validation-rules)
@@ -37,7 +39,7 @@ try {
         'chunk_size' => 4000, // must be equal to the value specified on the client side
 
         // Driver
-        'driver' => 'local', // [local, ftp] or your own driver which must impelement \Wester\ChunkUpload\Drivers\Contracts\DriverInterface
+        'driver' => 'local', // [local, ftp]
 
         // Local driver details
         'local_driver' => [
@@ -85,6 +87,40 @@ try {
     $e->response(400)->abort();
 }
 ```
+
+## Drivers
+This package supports `local` and `ftp` drivers out of the box.  
+
+* ### Implement The Driver
+    Your custom driver should implement the `\Wester\ChunkUpload\Drivers\Contracts\DriverInterface`.  
+
+    ```php
+    'driver' => \My\Custom\Drivers\DriverName::class,
+    ```
+
+    ```php
+    <?php
+
+    namespace My\Custom\Drivers;
+
+    class DriverName implements \Wester\ChunkUpload\Drivers\Contracts\DriverInterface
+    {
+        public function delete(): void {};
+        public function store(string $tmpName): void {};
+        public function move(): void {};
+        public function increase(): void {};
+        public function createTempFileName(int $part = null): string {};
+        public function createRandomString(): string {};
+        public function createFileName(): string {};
+        public function getTempFilePath(int $part = null): string {};
+        public function getFilePath(): string {};
+        public function getFileName(): string {};
+        public function getFullFileName(): string {};
+        public function getFileExtension() {};
+        public function prevExists() {};
+        public function exists(): bool {};
+    }
+    ```
 
 ## Methods
 * `store()` stores the chunk and merges it.
