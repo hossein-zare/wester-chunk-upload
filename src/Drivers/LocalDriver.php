@@ -4,8 +4,9 @@ namespace Wester\ChunkUpload\Drivers;
 
 use \Wester\ChunkUpload\Chunk;
 use \Wester\ChunkUpload\Header;
+use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
 
-class LocalDriver
+class LocalDriver implements DriverInterface
 {
     /**
      * Create a new instance.
@@ -25,7 +26,7 @@ class LocalDriver
      * 
      * @return void
      */
-    public function delete()
+    public function delete(): void
     {
         $path = $this->getTempFilePath($this->header->chunkNumber);
         if (file_exists($path)) {
@@ -46,7 +47,7 @@ class LocalDriver
      * @param  string  $tmpName
      * @return void
      */
-    public function store(string $tmpName)
+    public function store(string $tmpName): void
     {
         $file = fopen($this->getTempFilePath(), 'a');
 
@@ -62,7 +63,7 @@ class LocalDriver
      * 
      * @return void
      */
-    public function move()
+    public function move(): void
     {
         rename($this->getTempFilePath(), $this->getFilePath());
     }
@@ -72,7 +73,7 @@ class LocalDriver
      * 
      * @return void
      */
-    public function increase()
+    public function increase(): void
     {
         if ($this->header->chunkNumber > 1) {
             rename(
@@ -111,7 +112,7 @@ class LocalDriver
      * 
      * @return string
      */
-    public function createRandomString()
+    public function createRandomString(): string
     {
         return bin2hex(random_bytes(16));
     }
@@ -216,7 +217,7 @@ class LocalDriver
      * 
      * @return bool
      */
-    public function exists()
+    public function exists(): bool
     {
         return file_exists($this->getTempFilePath());
     }
