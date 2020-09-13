@@ -51,8 +51,8 @@ try {
             'username' => '',
             'password' => '',
 
-            'path' =>  './uploads/', // where to upload the final file
-            'tmp_path' => './uploads/temp/', // where to store the temp chunks
+            'path' =>  '/uploads/', // where to upload the final file
+            'tmp_path' => '/uploads/temp/', // where to store the temp chunks
         ],
 
         // File details
