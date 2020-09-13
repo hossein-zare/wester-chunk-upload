@@ -1,5 +1,6 @@
 # Wester Chunk Upload Library For PHP
-Wester chunk upload is a php library to handle chunked uploads which supports `local` and `ftp` drivers. This makes it super easy to validate the chunks and ensure you are secure.
+Wester chunk upload is a php library to handle chunked uploads which supports local and ftp drivers out of the box.  
+You'll feel safe with the built-in file validator.
 
 ## Table of contents
 * [Installation](#installation)
