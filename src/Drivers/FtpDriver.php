@@ -10,18 +10,11 @@ use Wester\ChunkUpload\Drivers\Exceptions\FtpDriverException;
 class FtpDriver implements DriverInterface
 {
     /**
-     * The configs.
+     * The chunk.
      * 
-     * @var array
+     * @var \Wester\ChunkUpload\Chunk
      */
-    public $configs;
-
-    /**
-     * The headers.
-     * 
-     * @var \Wester\ChunkUpload\Header
-     */
-    public $header;
+    public $chunk;
 
     /**
      * The connection.
@@ -34,74 +27,22 @@ class FtpDriver implements DriverInterface
      * Create a new instance.
      * 
      * @param  array  $configs
-     * @param  \Wester\ChunkUpload\Header  $header
+     * @param  \Wester\ChunkUpload\Chunk  $chunk
      * @return void
      */
-    public function __construct(array $configs, Header $header)
+    public function __construct(Chunk $chunk)
     {
-        $this->configs = $configs;
-        $this->header = $header;
+        $this->chunk = $chunk;
+    }
 
+    /**
+     * Open the connection.
+     * 
+     * @return void
+     */
+    public function open()
+    {
         $this->createConnection()->login();
-    }
-
-    /**
-     * Create a ftp connection.
-     * 
-     * @return \Wester\ChunkUpload\Drivers\FtpDriver
-     */
-    private function createConnection()
-    {
-        if (! $this->connection = @ftp_connect($this->configs['ftp_driver']['server']))
-            throw new FtpDriverException("FTP couldn't connect to the server.");
-
-        return $this;
-    }
-
-    /**
-     * Login to the ftp account.
-     * 
-     * @return void
-     */
-    private function login()
-    {
-        if (! @ftp_login($this->connection, $this->configs['ftp_driver']['username'], $this->configs['ftp_driver']['password']))
-            throw new FtpDriverException("FTP couldn't login to the server.");
-    }
-
-    /**
-     * Delete a temp chunk.
-     * 
-     * @return void
-     */
-    public function delete(): void
-    {
-        $path = $this->getTempFilePath($this->header->chunkNumber);
-        if (ftp_size($this->connection, $path) > -1) {
-            ftp_delete($this->connection, $path);
-        }
-
-        if ($this->header->chunkNumber > 1) {
-            $path = $this->getTempFilePath($this->header->chunkNumber - 1);
-            if (ftp_size($this->connection, $path) > -1) {
-                ftp_delete($this->connection, $path);
-            }
-        }
-    }
-
-    /**
-     * Store the file.
-     * 
-     * @param  string  $tmpName
-     * @return void
-     */
-    public function store(string $tmpName): void
-    {
-        $size = ftp_size($this->connection, $this->getTempFilePath());
-        if (! ftp_append($this->connection, $this->getTempFilePath(), $tmpName)) {
-            $this->close();
-            throw new FtpDriverException("FTP Couldn't append to the file.");
-        }
     }
 
     /**
@@ -115,13 +56,72 @@ class FtpDriver implements DriverInterface
     }
 
     /**
+     * Create a ftp connection.
+     * 
+     * @return \Wester\ChunkUpload\Drivers\FtpDriver
+     */
+    private function createConnection()
+    {
+        if (! $this->connection = @ftp_connect($this->chunk->configs['ftp_driver']['server']))
+            throw new FtpDriverException("FTP couldn't connect to the server.");
+
+        return $this;
+    }
+
+    /**
+     * Login to the ftp account.
+     * 
+     * @return void
+     */
+    private function login()
+    {
+        if (! @ftp_login($this->connection, $this->chunk->configs['ftp_driver']['username'], $this->chunk->configs['ftp_driver']['password']))
+            throw new FtpDriverException("FTP couldn't login to the server.");
+    }
+
+    /**
+     * Store the file.
+     * 
+     * @param  string  $fileName
+     * @return void
+     */
+    public function store($fileName)
+    {
+        if (! ftp_append($this->connection, $this->chunk->getTempFilePath(), $fileName)) {
+            $this->close();
+
+            throw new FtpDriverException("FTP Couldn't append to the file.");
+        }
+    }
+
+    /**
+     * Delete a temp chunk.
+     * 
+     * @return void
+     */
+    public function delete()
+    {
+        $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
+        if (ftp_size($this->connection, $path) > -1) {
+            ftp_delete($this->connection, $path);
+        }
+
+        if ($this->chunk->header->chunkNumber > 1) {
+            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+            if (ftp_size($this->connection, $path) > -1) {
+                ftp_delete($this->connection, $path);
+            }
+        }
+    }
+
+    /**
      * Move the file into the path.
      * 
      * @return void
      */
-    public function move(): void
+    public function move()
     {
-        ftp_rename($this->connection, $this->getTempFilePath(), $this->getFilePath());
+        ftp_rename($this->connection, $this->chunk->getTempFilePath(), $this->chunk->getFilePath());
     }
 
     /**
@@ -129,128 +129,13 @@ class FtpDriver implements DriverInterface
      * 
      * @return void
      */
-    public function increase(): void
+    public function increase()
     {
-        if ($this->header->chunkNumber > 1) {
+        if ($this->chunk->header->chunkNumber > 1) {
             ftp_rename(
-                $this->connection, $this->getTempFilePath($this->header->chunkNumber - 1), $this->getTempFilePath()
+                $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
             );
         }
-    }
-
-    /**
-     * Create a unique temp file name.
-     * 
-     * @param  null|int  $part
-     * @return string
-     */
-    public function createTempFileName(int $part = null): string
-    {
-        $mixture = [
-            $this->header->fileSize,
-            $this->header->fileName,
-            $this->header->fileIdentity
-        ];
-
-        $identity = [
-            $this->getFileExtension(),
-            ($part ?: $this->header->chunkNumber),
-            'tmp'
-        ];
-    
-        return implode('.', [
-            hash('ripemd160', implode($mixture)), implode('.', array_filter($identity))
-        ]);
-    }
-
-    /**
-     * Create a random string.
-     * 
-     * @return string
-     */
-    public function createRandomString(): string
-    {
-        return bin2hex(random_bytes(16));
-    }
-
-    /**
-     * Create a file name.
-     * 
-     * @return string
-     */
-    public function createFileName(): string
-    {
-        if (is_int($this->configs['file_name'])) {
-            switch ($this->configs['file_name']) {
-                case Chunk::RANDOM_FILE_NAME:
-                    $this->configs['file_name'] = $this->createRandomString();
-                break;
-
-                case Chunk::ORIGINAL_FILE_NAME:
-                    $this->configs['file_name'] = pathinfo($this->header->fileName, PATHINFO_FILENAME);
-                break;
-            }
-        }
-
-        return $this->getFullFileName();
-    }
-
-    /**
-     * Get temp file path.
-     * 
-     * @param  null|int  $part
-     * @return string
-     */
-    public function getTempFilePath(int $part = null): string
-    {
-        return $this->configs['ftp_driver']['tmp_path'] . $this->createTempFileName($part);
-    }
-
-    /**
-     * Get temp file path.
-     * 
-     * @return string
-     */
-    public function getFilePath(): string
-    {
-        return $this->configs['ftp_driver']['path'] . $this->createFileName();
-    }
-
-    /**
-     * Get file name.
-     * 
-     * @return string
-     */
-    public function getFileName(): string
-    {
-        return $this->configs['file_name'];
-    }
-
-    /**
-     * Get file name with extension.
-     * 
-     * @return string
-     */
-    public function getFullFileName(): string
-    {
-        return implode('.', array_filter([$this->getFileName(), $this->getFileExtension()]));
-    }
-
-    /**
-     * Get the file extension.
-     * 
-     * @return null|string
-     */
-    public function getFileExtension()
-    {
-        if ($this->configs['file_extension'] === Chunk::ORIGINAL_FILE_EXTENSION) {
-            $extension = trim(pathinfo($this->header->fileName, PATHINFO_EXTENSION));
-            $extension = empty($extension) ? null : $extension;
-
-            $this->configs['file_extension'] = $extension;
-        }
-
-        return $this->configs['file_extension'];
     }
 
     /**
@@ -260,11 +145,11 @@ class FtpDriver implements DriverInterface
      */
     public function prevExists()
     {
-        if ($this->header->chunkNumber === 1)
+        if ($this->chunk->header->chunkNumber === 1)
             return null;
 
         return ftp_size(
-            $this->connection, $this->getTempFilePath($this->header->chunkNumber - 1)
+            $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1)
         ) > -1;
     }
 
@@ -273,8 +158,8 @@ class FtpDriver implements DriverInterface
      * 
      * @return bool
      */
-    public function exists(): bool
+    public function exists()
     {
-        return ftp_size($this->connection, $this->getTempFilePath()) > -1;
+        return ftp_size($this->connection, $this->chunk->getTempFilePath()) > -1;
     }
 }
