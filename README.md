@@ -35,11 +35,25 @@ try {
     $chunk = new Chunk([
         'name' => 'video', // same as    $_FILES['video']
         'chunk_size' => 4000, // must be equal to the value specified on the client side
-        'path' => __DIR__ . '/uploads/', // where to upload the final file
-        'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
 
         // Driver
         'driver' => 'local', // [local, ftp] or your own driver which must impelement \Wester\ChunkUpload\Drivers\Contracts\DriverInterface
+
+        // Local driver details
+        'local_driver' => [
+            'path' => __DIR__ . '/uploads/', // where to upload the final file
+            'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
+        ]
+
+        // FTP driver details
+        'ftp_driver' => [
+            'server' => '',
+            'username' => '',
+            'password' => '',
+
+            'path' =>  './uploads/', // where to upload the final file
+            'tmp_path' => './uploads/temp/', // where to store the temp chunks
+        ],
 
         // File details
         'file_name' => Chunk::RANDOM_FILE_NAME,
