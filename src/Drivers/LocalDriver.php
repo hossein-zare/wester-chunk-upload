@@ -2,8 +2,8 @@
 
 namespace Wester\ChunkUpload\Drivers;
 
-use \Wester\ChunkUpload\Chunk;
-use \Wester\ChunkUpload\Header;
+use Wester\ChunkUpload\Chunk;
+use Wester\ChunkUpload\Header;
 use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
 
 class LocalDriver implements DriverInterface
