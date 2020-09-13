@@ -9,6 +9,20 @@ use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
 class LocalDriver implements DriverInterface
 {
     /**
+     * The configs.
+     * 
+     * @var array
+     */
+    public $configs;
+
+    /**
+     * The headers.
+     * 
+     * @var \Wester\ChunkUpload\Header
+     */
+    public $header;
+    
+    /**
      * Create a new instance.
      * 
      * @param  array  $configs
@@ -147,7 +161,7 @@ class LocalDriver implements DriverInterface
      */
     public function getTempFilePath(int $part = null): string
     {
-        return $this->configs['tmp_path'] . $this->createTempFileName($part);
+        return $this->configs['local_driver']['tmp_path'] . $this->createTempFileName($part);
     }
 
     /**
@@ -157,7 +171,7 @@ class LocalDriver implements DriverInterface
      */
     public function getFilePath(): string
     {
-        return $this->configs['path'] . $this->createFileName();
+        return $this->configs['local_driver']['path'] . $this->createFileName();
     }
 
     /**
