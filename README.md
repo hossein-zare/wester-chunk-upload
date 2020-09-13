@@ -90,7 +90,12 @@ try {
 ```
 
 ## Drivers
-This package supports `local` and `ftp` drivers out of the box.  
+This package supports `ftp` file upload out of the box.  
+`local` and `ftp` or custom drivers can be used.
+
+```php
+'driver' => 'ftp',
+```
 
 * ### Implement The Driver
     Your custom driver should implement the `\Wester\ChunkUpload\Drivers\Contracts\DriverInterface`.  
@@ -272,7 +277,7 @@ The client side implementation in React Native.
 * [https://github.com/hossein-zare/react-native-chunk-upload](https://github.com/hossein-zare/react-native-chunk-upload)
 
 #### Contribution
-* If you want to add more implementations in other languages please sumbit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
+* If you want to add more implementations in other languages please submit your PR to the [wester-chunk-upload-examples](https://github.com/hossein-zare/wester-chunk-upload-examples/) repository.
 
 ## Support Us
 Just star the repository, that's it! 😉
