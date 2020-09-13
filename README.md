@@ -43,7 +43,7 @@ try {
         'local_driver' => [
             'path' => __DIR__ . '/uploads/', // where to upload the final file
             'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
-        ]
+        ],
 
         // FTP driver details
         'ftp_driver' => [
