@@ -290,6 +290,8 @@ class Chunk
             $this->response()->status(201);
         }
 
+        $this->driver->close();
+
         return $this;
     }
 
