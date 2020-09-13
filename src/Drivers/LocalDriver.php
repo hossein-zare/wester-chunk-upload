@@ -3,73 +3,36 @@
 namespace Wester\ChunkUpload\Drivers;
 
 use Wester\ChunkUpload\Chunk;
-use Wester\ChunkUpload\Header;
 use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
 
 class LocalDriver implements DriverInterface
 {
     /**
-     * The configs.
+     * The chunk.
      * 
-     * @var array
+     * @var \Wester\ChunkUpload\Chunk
      */
-    public $configs;
-
-    /**
-     * The headers.
-     * 
-     * @var \Wester\ChunkUpload\Header
-     */
-    public $header;
+    public $chunk;
     
     /**
      * Create a new instance.
      * 
-     * @param  array  $configs
-     * @param  \Wester\ChunkUpload\Header  $header
+     * @param  \Wester\ChunkUpload\Chunk  $chunk
      * @return void
      */
-    public function __construct(array $configs, Header $header)
+    public function __construct(Chunk $chunk)
     {
-        $this->configs = $configs;
-        $this->header = $header;
+        $this->chunk = $chunk;
     }
 
     /**
-     * Delete a temp chunk.
+     * Open the connection.
      * 
      * @return void
      */
-    public function delete(): void
+    public function open()
     {
-        $path = $this->getTempFilePath($this->header->chunkNumber);
-        if (file_exists($path)) {
-            unlink($path);
-        }
-
-        if ($this->header->chunkNumber > 1) {
-            $path = $this->getTempFilePath($this->header->chunkNumber - 1);
-            if (file_exists($path)) {
-                unlink($path);
-            }
-        }
-    }
-
-    /**
-     * Store the file.
-     * 
-     * @param  string  $tmpName
-     * @return void
-     */
-    public function store(string $tmpName): void
-    {
-        $file = fopen($this->getTempFilePath(), 'a');
-
-        fwrite($file, file_get_contents(
-            $tmpName
-        ));
-
-        fclose($file);
+        //
     }
 
     /**
@@ -83,13 +46,50 @@ class LocalDriver implements DriverInterface
     }
 
     /**
+     * Store the file.
+     * 
+     * @param  string  $fileName
+     * @return void
+     */
+    public function store($fileName)
+    {
+        $file = fopen($this->chunk->getTempFilePath(), 'a');
+
+        fwrite($file, file_get_contents(
+            $fileName
+        ));
+
+        fclose($file);
+    }
+
+    /**
+     * Delete a temp chunk.
+     * 
+     * @return void
+     */
+    public function delete()
+    {
+        $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        if ($this->chunk->header->chunkNumber > 1) {
+            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+    }
+
+    /**
      * Move the file into the path.
      * 
      * @return void
      */
-    public function move(): void
+    public function move()
     {
-        rename($this->getTempFilePath(), $this->getFilePath());
+        rename($this->chunk->getTempFilePath(), $this->chunk->getFilePath());
     }
 
     /**
@@ -97,128 +97,13 @@ class LocalDriver implements DriverInterface
      * 
      * @return void
      */
-    public function increase(): void
+    public function increase()
     {
-        if ($this->header->chunkNumber > 1) {
+        if ($this->chunk->header->chunkNumber > 1) {
             rename(
-                $this->getTempFilePath($this->header->chunkNumber - 1), $this->getTempFilePath()
+                $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
             );
         }
-    }
-
-    /**
-     * Create a unique temp file name.
-     * 
-     * @param  null|int  $part
-     * @return string
-     */
-    public function createTempFileName(int $part = null): string
-    {
-        $mixture = [
-            $this->header->fileSize,
-            $this->header->fileName,
-            $this->header->fileIdentity
-        ];
-
-        $identity = [
-            $this->getFileExtension(),
-            ($part ?: $this->header->chunkNumber),
-            'tmp'
-        ];
-    
-        return implode('.', [
-            hash('ripemd160', implode($mixture)), implode('.', array_filter($identity))
-        ]);
-    }
-
-    /**
-     * Create a random string.
-     * 
-     * @return string
-     */
-    public function createRandomString(): string
-    {
-        return bin2hex(random_bytes(16));
-    }
-
-    /**
-     * Create a file name.
-     * 
-     * @return string
-     */
-    public function createFileName(): string
-    {
-        if (is_int($this->configs['file_name'])) {
-            switch ($this->configs['file_name']) {
-                case Chunk::RANDOM_FILE_NAME:
-                    $this->configs['file_name'] = $this->createRandomString();
-                break;
-
-                case Chunk::ORIGINAL_FILE_NAME:
-                    $this->configs['file_name'] = pathinfo($this->header->fileName, PATHINFO_FILENAME);
-                break;
-            }
-        }
-
-        return $this->getFullFileName();
-    }
-
-    /**
-     * Get temp file path.
-     * 
-     * @param  null|int  $part
-     * @return string
-     */
-    public function getTempFilePath(int $part = null): string
-    {
-        return $this->configs['local_driver']['tmp_path'] . $this->createTempFileName($part);
-    }
-
-    /**
-     * Get temp file path.
-     * 
-     * @return string
-     */
-    public function getFilePath(): string
-    {
-        return $this->configs['local_driver']['path'] . $this->createFileName();
-    }
-
-    /**
-     * Get file name.
-     * 
-     * @return string
-     */
-    public function getFileName(): string
-    {
-        return $this->configs['file_name'];
-    }
-
-    /**
-     * Get file name with extension.
-     * 
-     * @return string
-     */
-    public function getFullFileName(): string
-    {
-        return implode('.', array_filter([$this->getFileName(), $this->getFileExtension()]));
-    }
-
-    /**
-     * Get the file extension.
-     * 
-     * @return null|string
-     */
-    public function getFileExtension()
-    {
-        if ($this->configs['file_extension'] === Chunk::ORIGINAL_FILE_EXTENSION) {
-            $extension = trim(pathinfo($this->header->fileName, PATHINFO_EXTENSION));
-            $extension = empty($extension) ? null : $extension;
-
-            $this->configs['file_extension'] = $extension;
-        }
-
-        return $this->configs['file_extension'];
     }
 
     /**
@@ -228,11 +113,11 @@ class LocalDriver implements DriverInterface
      */
     public function prevExists()
     {
-        if ($this->header->chunkNumber === 1)
+        if ($this->chunk->header->chunkNumber === 1)
             return null;
 
         return file_exists(
-            $this->getTempFilePath($this->header->chunkNumber - 1)
+            $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1)
         );
     }
 
@@ -241,8 +126,8 @@ class LocalDriver implements DriverInterface
      * 
      * @return bool
      */
-    public function exists(): bool
+    public function exists()
     {
-        return file_exists($this->getTempFilePath());
+        return file_exists($this->chunk->getTempFilePath());
     }
 }
