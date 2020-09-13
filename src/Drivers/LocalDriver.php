@@ -73,6 +73,16 @@ class LocalDriver implements DriverInterface
     }
 
     /**
+     * Close the connection.
+     * 
+     * @return void
+     */
+    public function close()
+    {
+        //
+    }
+
+    /**
      * Move the file into the path.
      * 
      * @return void
