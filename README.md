@@ -38,6 +38,9 @@ try {
         'path' => __DIR__ . '/uploads/', // where to upload the final file
         'tmp_path' => __DIR__ . '/uploads/temp/', // where to store the temp chunks
 
+        // Driver
+        'driver' => 'local', // [local, ftp] or your own driver which must impelement \Wester\ChunkUpload\Drivers\Contracts\DriverInterface
+
         // File details
         'file_name' => Chunk::RANDOM_FILE_NAME,
         'file_extension' => Chunk::ORIGINAL_FILE_EXTENSION,
