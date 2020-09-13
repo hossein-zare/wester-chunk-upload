@@ -5,6 +5,7 @@ namespace Wester\ChunkUpload\Drivers;
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
 use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
+use Wester\ChunkUpload\Drivers\Exceptions\FtpDriverException;
 
 class FtpDriver implements DriverInterface
 {
@@ -51,7 +52,8 @@ class FtpDriver implements DriverInterface
      */
     private function createConnection()
     {
-        $this->connection = ftp_connect($this->configs['ftp_driver']['server']) or die('ftp conn failed.');
+        if (! $this->connection = @ftp_connect($this->configs['ftp_driver']['server']))
+            throw new FtpDriverException("FTP couldn't connect to the server.");
 
         return $this;
     }
@@ -63,7 +65,8 @@ class FtpDriver implements DriverInterface
      */
     private function login()
     {
-        ftp_login($this->connection, $this->configs['ftp_driver']['username'], $this->configs['ftp_driver']['password']);
+        if (! @ftp_login($this->connection, $this->configs['ftp_driver']['username'], $this->configs['ftp_driver']['password']))
+            throw new FtpDriverException("FTP couldn't login to the server.");
     }
 
     /**
@@ -94,11 +97,20 @@ class FtpDriver implements DriverInterface
      */
     public function store(string $tmpName): void
     {
-        if (! ftp_put($this->connection, $this->getTempFilePath(), $tmpName, FTP_ASCII)) {
-            // error here
-            echo 'failed to upload to ftp.';
+        $size = ftp_size($this->connection, $this->getTempFilePath());
+        if (! ftp_append($this->connection, $this->getTempFilePath(), $tmpName)) {
+            $this->close();
+            throw new FtpDriverException("FTP Couldn't append to the file.");
         }
+    }
 
+    /**
+     * Close the connection.
+     * 
+     * @return void
+     */
+    public function close()
+    {
         ftp_close($this->connection);
     }
 
