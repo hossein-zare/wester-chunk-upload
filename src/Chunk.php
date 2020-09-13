@@ -199,9 +199,29 @@ class Chunk
             $driver = "\\Wester\\ChunkUpload\\Drivers\\{$name}Driver";
         }
 
-        $this->driver = new $driver($this->configs, $this->header);
+        $this->driver = new $driver($this);
+        $this->driver->open();
 
         return $this;
+    }
+
+    /**
+     * Get driver configs.
+     * 
+     * @return array
+     */
+    private function getDriverConfigs()
+    {
+        switch ($this->configs['driver']) {
+            case 'local':
+                return $this->getDriverConfigs();
+
+            case 'ftp':
+                return $this->configs['ftp_driver'];
+
+            default:
+                return $this->configs['custom_driver'];
+        }
     }
 
     /**
@@ -335,6 +355,63 @@ class Chunk
     }
 
     /**
+     * Create a unique temp file name.
+     * 
+     * @param  null|int  $part
+     * @return string
+     */
+    public function createTempFileName(int $part = null): string
+    {
+        $mixture = [
+            $this->header->fileSize,
+            $this->header->fileName,
+            $this->header->fileIdentity
+        ];
+
+        $identity = [
+            $this->getFileExtension(),
+            ($part ?: $this->header->chunkNumber),
+            'tmp'
+        ];
+    
+        return implode('.', [
+            hash('ripemd160', implode($mixture)), implode('.', array_filter($identity))
+        ]);
+    }
+
+    /**
+     * Create a random string.
+     * 
+     * @return string
+     */
+    public function createRandomString(): string
+    {
+        return bin2hex(random_bytes(16));
+    }
+
+    /**
+     * Create a file name.
+     * 
+     * @return string
+     */
+    public function createFileName(): string
+    {
+        if (is_int($this->configs['file_name'])) {
+            switch ($this->configs['file_name']) {
+                case Chunk::RANDOM_FILE_NAME:
+                    $this->configs['file_name'] = $this->createRandomString();
+                break;
+
+                case Chunk::ORIGINAL_FILE_NAME:
+                    $this->configs['file_name'] = pathinfo($this->header->fileName, PATHINFO_FILENAME);
+                break;
+            }
+        }
+
+        return $this->getFullFileName();
+    }
+
+    /**
      * Get temp file path.
      * 
      * @param  null|int  $part
@@ -342,7 +419,7 @@ class Chunk
      */
     public function getTempFilePath(int $part = null): string
     {
-        return $this->driver->getTempFilePath($part);
+        return $this->getDriverConfigs()['tmp_path'] . $this->createTempFileName($part);
     }
 
     /**
@@ -352,7 +429,7 @@ class Chunk
      */
     public function getFilePath(): string
     {
-        return $this->driver->getFilePath();
+        return $this->getDriverConfigs()['path'] . $this->createFileName();
     }
 
     /**
@@ -362,7 +439,7 @@ class Chunk
      */
     public function getFileName(): string
     {
-        return $this->driver->getFileName();
+        return $this->configs['file_name'];
     }
 
     /**
@@ -372,7 +449,7 @@ class Chunk
      */
     public function getFullFileName(): string
     {
-        return $this->driver->getFullFileName();
+        return implode('.', array_filter([$this->getFileName(), $this->getFileExtension()]));
     }
 
     /**
@@ -382,7 +459,14 @@ class Chunk
      */
     public function getFileExtension()
     {
-        return $this->driver->getFileExtension();
+        if ($this->configs['file_extension'] === Chunk::ORIGINAL_FILE_EXTENSION) {
+            $extension = trim(pathinfo($this->header->fileName, PATHINFO_EXTENSION));
+            $extension = empty($extension) ? null : $extension;
+
+            $this->configs['file_extension'] = $extension;
+        }
+
+        return $this->configs['file_extension'];
     }
 
     /**
