@@ -214,7 +214,7 @@ class Chunk
     {
         switch ($this->configs['driver']) {
             case 'local':
-                return $this->getDriverConfigs();
+                return $this->configs['local_driver'];
 
             case 'ftp':
                 return $this->configs['ftp_driver'];
