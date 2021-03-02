@@ -4,6 +4,7 @@ namespace Wester\ChunkUpload\Drivers;
 
 use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
+use Wester\ChunkUpload\Exceptions\MainException;
 
 class LocalDriver implements DriverInterface
 {
@@ -53,13 +54,17 @@ class LocalDriver implements DriverInterface
      */
     public function store($fileName)
     {
-        $file = fopen($this->chunk->getTempFilePath(), 'a');
+        try {
+            $file = fopen($this->chunk->getTempFilePath(), 'a');
 
-        fwrite($file, file_get_contents(
-            $fileName
-        ));
+            fwrite($file, file_get_contents(
+                $fileName
+            ));
 
-        fclose($file);
+            fclose($file);
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -69,16 +74,20 @@ class LocalDriver implements DriverInterface
      */
     public function delete()
     {
-        $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
-        if (file_exists($path)) {
-            unlink($path);
-        }
-
-        if ($this->chunk->header->chunkNumber > 1) {
-            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+        try {
+            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
             if (file_exists($path)) {
                 unlink($path);
             }
+
+            if ($this->chunk->header->chunkNumber > 1) {
+                $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+            }
+        } catch (\Exception $e) {
+            throw new MainException($e);
         }
     }
 
@@ -89,7 +98,11 @@ class LocalDriver implements DriverInterface
      */
     public function move()
     {
-        rename($this->chunk->getTempFilePath(), $this->chunk->getFilePath());
+        try {
+            rename($this->chunk->getTempFilePath(), $this->chunk->getFilePath());
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -99,10 +112,14 @@ class LocalDriver implements DriverInterface
      */
     public function increase()
     {
-        if ($this->chunk->header->chunkNumber > 1) {
-            rename(
-                $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
-            );
+        try {
+            if ($this->chunk->header->chunkNumber > 1) {
+                rename(
+                    $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
+                );
+            }
+        } catch (\Exception $e) {
+            throw new MainException($e);
         }
     }
 

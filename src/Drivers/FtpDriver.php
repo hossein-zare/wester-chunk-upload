@@ -6,6 +6,7 @@ use Wester\ChunkUpload\Chunk;
 use Wester\ChunkUpload\Header;
 use Wester\ChunkUpload\Drivers\Contracts\DriverInterface;
 use Wester\ChunkUpload\Drivers\Exceptions\FtpDriverException;
+use Wester\ChunkUpload\Exceptions\MainException;
 
 class FtpDriver implements DriverInterface
 {
@@ -52,7 +53,11 @@ class FtpDriver implements DriverInterface
      */
     public function close()
     {
-        ftp_close($this->connection);
+        try {
+            ftp_close($this->connection);
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -101,16 +106,20 @@ class FtpDriver implements DriverInterface
      */
     public function delete()
     {
-        $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
-        if (ftp_size($this->connection, $path) > -1) {
-            ftp_delete($this->connection, $path);
-        }
-
-        if ($this->chunk->header->chunkNumber > 1) {
-            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+        try {
+            $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber);
             if (ftp_size($this->connection, $path) > -1) {
                 ftp_delete($this->connection, $path);
             }
+
+            if ($this->chunk->header->chunkNumber > 1) {
+                $path = $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1);
+                if (ftp_size($this->connection, $path) > -1) {
+                    ftp_delete($this->connection, $path);
+                }
+            }
+        } catch (\Exception $e) {
+            throw new MainException($e);
         }
     }
 
@@ -121,7 +130,11 @@ class FtpDriver implements DriverInterface
      */
     public function move()
     {
-        ftp_rename($this->connection, $this->chunk->getTempFilePath(), $this->chunk->getFilePath());
+        try {
+            ftp_rename($this->connection, $this->chunk->getTempFilePath(), $this->chunk->getFilePath());
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -131,10 +144,14 @@ class FtpDriver implements DriverInterface
      */
     public function increase()
     {
-        if ($this->chunk->header->chunkNumber > 1) {
-            ftp_rename(
-                $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
-            );
+        try {
+            if ($this->chunk->header->chunkNumber > 1) {
+                ftp_rename(
+                    $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1), $this->chunk->getTempFilePath()
+                );
+            }
+        } catch (\Exception $e) {
+            throw new MainException($e);
         }
     }
 
@@ -145,12 +162,16 @@ class FtpDriver implements DriverInterface
      */
     public function prevExists()
     {
-        if ($this->chunk->header->chunkNumber === 1)
-            return null;
+        try {
+            if ($this->chunk->header->chunkNumber === 1)
+                return null;
 
-        return ftp_size(
-            $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1)
-        ) > -1;
+            return ftp_size(
+                $this->connection, $this->chunk->getTempFilePath($this->chunk->header->chunkNumber - 1)
+            ) > -1;
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -160,6 +181,10 @@ class FtpDriver implements DriverInterface
      */
     public function exists()
     {
-        return ftp_size($this->connection, $this->chunk->getTempFilePath()) > -1;
+        try {
+            return ftp_size($this->connection, $this->chunk->getTempFilePath()) > -1;
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 }
