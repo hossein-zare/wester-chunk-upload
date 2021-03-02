@@ -67,10 +67,14 @@ class FtpDriver implements DriverInterface
      */
     private function createConnection()
     {
-        if (! $this->connection = @ftp_connect($this->chunk->configs['ftp_driver']['server']))
-            throw new FtpDriverException("FTP couldn't connect to the server.");
+        try {
+            if (! $this->connection = @ftp_connect($this->chunk->configs['ftp_driver']['server']))
+                throw new FtpDriverException("FTP couldn't connect to the server.");
 
-        return $this;
+            return $this;
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -80,8 +84,12 @@ class FtpDriver implements DriverInterface
      */
     private function login()
     {
-        if (! @ftp_login($this->connection, $this->chunk->configs['ftp_driver']['username'], $this->chunk->configs['ftp_driver']['password']))
-            throw new FtpDriverException("FTP couldn't login to the server.");
+        try {
+            if (! @ftp_login($this->connection, $this->chunk->configs['ftp_driver']['username'], $this->chunk->configs['ftp_driver']['password']))
+                throw new FtpDriverException("FTP couldn't login to the server.");
+        } catch (\Exception $e) {
+            throw new MainException($e);
+        }
     }
 
     /**
@@ -92,10 +100,14 @@ class FtpDriver implements DriverInterface
      */
     public function store($fileName)
     {
-        if (! ftp_append($this->connection, $this->chunk->getTempFilePath(), $fileName)) {
-            $this->close();
+        try {
+            if (! ftp_append($this->connection, $this->chunk->getTempFilePath(), $fileName)) {
+                $this->close();
 
-            throw new FtpDriverException("FTP Couldn't append to the file.");
+                throw new FtpDriverException("FTP Couldn't append to the file.");
+            }
+        } catch (\Exception $e) {
+            throw new MainException($e);
         }
     }
 
