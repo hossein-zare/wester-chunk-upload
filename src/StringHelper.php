@@ -19,6 +19,6 @@ class StringHelper
             preg_replace_callback('/([a-z])([A-Z])/', function ($match) {
                 return $match[1] . "-" . strtolower ($match[2]); 
             }, $string)
-        ) ;
+        );
     }
 }
