@@ -65,7 +65,7 @@ class File
             throw new FileEmptyException("There's no file.");
 
         if (! $this->isSingle($name))
-            throw new FileNotSingleException("There are more one files.");
+            throw new FileNotSingleException("There are multiple files.");
 
         if (! $this->isValid($name))
             throw new FileErrorException("There are some errors.");
