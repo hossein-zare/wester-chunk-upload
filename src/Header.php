@@ -33,7 +33,7 @@ class Header
      */
     protected function setHeaders()
     {
-        $this->headers = getallheaders();
+        $this->headers = array_change_key_case(getallheaders(), CASE_LOWER);
     }
 
     /**
