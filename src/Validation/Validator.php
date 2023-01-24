@@ -89,16 +89,12 @@ class Validator extends ExceptionHandler
 
                 if (! $this->callRule(...$args)) {
                     try {
-
                         $this->throw($class);
-
                     } catch (ValidationException $e) {
-
                         if ($this->isThrowable())
                             throw new MainException("The data is invalid.");
 
                         $messages[$parameter][] = $this->getValidationMessage($values);
-
                     }
                 }
             } 
