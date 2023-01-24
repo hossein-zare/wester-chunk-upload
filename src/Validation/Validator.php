@@ -181,26 +181,25 @@ class Validator extends ExceptionHandler
      */
     private function getValidationMessage(array $rule): string
     { 
-        if (isset($rule[1]) && $this->currentDataType === 'file')
+        if (isset($rule[1]) && $this->currentDataType === 'file') {
             $value = (int) $rule[1] / 1024;
-
-        else
+        } else {
             $value = $rule[1];
-
+        }
+        
         $data = [
             'attribute' => $this->currentParameter,
             'value' => $value
         ];
 
-        if ($rule[0] !== 'extension' && isset($rule[1]))
+        if ($rule[0] !== 'extension' && isset($rule[1])) {
             $key = "{$rule[0]}.{$this->currentDataType}";
-
-        else if ($rule[0] === 'extension')
+        } else if ($rule[0] === 'extension') {
             $key = 'mimes';
-
-        else
+        } else {
             $key = $rule[0];
-
+        }
+        
         return Language::expression($key, $data);
     }
 
