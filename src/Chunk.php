@@ -199,7 +199,7 @@ class Chunk
             $driver = "\\Wester\\ChunkUpload\\Drivers\\{$name}Driver";
         }
 
-        $this->driver = new $driver($this);
+        $this->driver = new $this->configs['driver']($this);
         $this->driver->open();
 
         return $this;
