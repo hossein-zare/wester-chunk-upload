@@ -197,9 +197,11 @@ class Chunk
         if (in_array($this->configs['driver'], ['local', 'ftp'])) {
             $name = ucfirst($this->configs['driver']);
             $driver = "\\Wester\\ChunkUpload\\Drivers\\{$name}Driver";
+        } else {
+            $driver = $this->configs['driver'];
         }
 
-        $this->driver = new $this->configs['driver']($this);
+        $this->driver = new $driver($this);
         $this->driver->open();
 
         return $this;
