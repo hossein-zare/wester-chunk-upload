@@ -57,7 +57,7 @@ class ExtensionRule
                 pathinfo($this->value, PATHINFO_EXTENSION)
             );
 
-            return ! empty($extension) && in_array($extension, $extensions);
+            return ! empty($extension) && in_array(strtolower($extension), $extensions);
         }
 
         return true;
