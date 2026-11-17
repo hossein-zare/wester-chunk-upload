@@ -60,7 +60,7 @@ class Validator extends ExceptionHandler
      * Validate parameters.
      * 
      * @param  array  $parameters
-     * @return \Wester\ChunkUpload\Validator
+     * @return \Wester\ChunkUpload\Validation\Validator
      */
     public function validate(array $parameters)
     {
