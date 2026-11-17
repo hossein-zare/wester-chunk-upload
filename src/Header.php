@@ -20,7 +20,7 @@ class Header
      * @param  array  $keys
      * @return void
      */
-    public function __construct(array $keys = null)
+    public function __construct(?array $keys = null)
     {
         $this->setHeaders();
         $this->only($keys);

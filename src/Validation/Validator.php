@@ -276,7 +276,7 @@ class Validator extends ExceptionHandler
      * @param  null|string  $name
      * @return mixed
      */
-    protected function getAttribute(string $name = null)
+    protected function getAttribute(?string $name = null)
     {
         if (! $name) {
             return $this->getAttribute($this->currentParameter);
