@@ -489,8 +489,7 @@ class Chunk
      */
     private function isChunk(): bool
     {
-        return $this->file->name === 'blob'
-            && $this->file->type === 'application/octet-stream';
+        return $this->file->type === 'application/octet-stream';
     }
 
     /**
