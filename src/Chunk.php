@@ -363,7 +363,7 @@ class Chunk
      * @param  null|int  $part
      * @return string
      */
-    public function createTempFileName(int $part = null): string
+    public function createTempFileName(?int $part = null): string
     {
         $mixture = [
             $this->header->fileSize,
@@ -420,7 +420,7 @@ class Chunk
      * @param  null|int  $part
      * @return string
      */
-    public function getTempFilePath(int $part = null): string
+    public function getTempFilePath(?int $part = null): string
     {
         return $this->getDriverConfigs()['tmp_path'] . $this->createTempFileName($part);
     }
